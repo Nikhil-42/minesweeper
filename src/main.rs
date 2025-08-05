@@ -44,15 +44,10 @@ async fn main() {
         tile_size: 48.0,
     };
 
-    let flag_tex = load_texture("res/flag.png");
-    let default_tex = load_texture("res/default.png");
-    let revealed_tex = load_texture("res/revealed.png");
-    let mine_tex = load_texture("res/mine.png");
-
-    let flag_tex = flag_tex.await.unwrap();
-    let default_tex = default_tex.await.unwrap();
-    let revealed_tex = revealed_tex.await.unwrap();
-    let mine_tex = mine_tex.await.unwrap();
+    let flag_tex = load_texture("res/flag.png").await.unwrap();
+    let default_tex = load_texture("res/default.png").await.unwrap();
+    let revealed_tex = load_texture("res/revealed.png").await.unwrap();
+    let mine_tex = load_texture("res/mine.png").await.unwrap();
 
     let numbers_tex = [
         load_texture("res/1.png").await.unwrap(),
@@ -64,6 +59,14 @@ async fn main() {
         load_texture("res/7.png").await.unwrap(),
         load_texture("res/8.png").await.unwrap(),
     ];
+
+    flag_tex.set_filter(FilterMode::Nearest);
+    default_tex.set_filter(FilterMode::Nearest);
+    revealed_tex.set_filter(FilterMode::Nearest);
+    mine_tex.set_filter(FilterMode::Nearest);
+    for tex in &numbers_tex {
+        tex.set_filter(FilterMode::Nearest);
+    }
 
     let mut minesweeper = Minesweeper::new(config.dimensions, 99);
     let mut start_time = macroquad::prelude::get_time();
