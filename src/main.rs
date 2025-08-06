@@ -6,6 +6,7 @@ use minesweeper::{GameState, Minesweeper, Point};
 struct Config {
     header_size: f32,
     dimensions: (usize, usize),
+    num_mines: usize,
     tile_size: f32,
 }
 
@@ -40,24 +41,25 @@ fn to_screen(coords: Point, config: &Config) -> (f32, f32) {
 async fn main() {
     let config = Config {
         header_size: 50.0,
-        dimensions: (24, 20),
+        dimensions: (18, 14),
+        num_mines: 40,
         tile_size: 48.0,
     };
 
-    let flag_tex = load_texture("res/flag.png").await.unwrap();
-    let default_tex = load_texture("res/default.png").await.unwrap();
-    let revealed_tex = load_texture("res/revealed.png").await.unwrap();
-    let mine_tex = load_texture("res/mine.png").await.unwrap();
+    let flag_tex = load_texture("res/flag.PNG").await.unwrap();
+    let default_tex = load_texture("res/default.PNG").await.unwrap();
+    let revealed_tex = load_texture("res/revealed.PNG").await.unwrap();
+    let mine_tex = load_texture("res/mine.PNG").await.unwrap();
 
     let numbers_tex = [
-        load_texture("res/1.png").await.unwrap(),
-        load_texture("res/2.png").await.unwrap(),
-        load_texture("res/3.png").await.unwrap(),
-        load_texture("res/4.png").await.unwrap(),
-        load_texture("res/5.png").await.unwrap(),
-        load_texture("res/6.png").await.unwrap(),
-        load_texture("res/7.png").await.unwrap(),
-        load_texture("res/8.png").await.unwrap(),
+        load_texture("res/1.PNG").await.unwrap(),
+        load_texture("res/2.PNG").await.unwrap(),
+        load_texture("res/3.PNG").await.unwrap(),
+        load_texture("res/4.PNG").await.unwrap(),
+        load_texture("res/5.PNG").await.unwrap(),
+        load_texture("res/6.PNG").await.unwrap(),
+        load_texture("res/7.PNG").await.unwrap(),
+        load_texture("res/8.PNG").await.unwrap(),
     ];
 
     flag_tex.set_filter(FilterMode::Nearest);
@@ -68,7 +70,7 @@ async fn main() {
         tex.set_filter(FilterMode::Nearest);
     }
 
-    let mut minesweeper = Minesweeper::new(config.dimensions, 99);
+    let mut minesweeper = Minesweeper::new(config.dimensions, config.num_mines);
     let mut start_time = macroquad::prelude::get_time();
     let mut end_time: Option<f64> = None;
 
@@ -91,7 +93,7 @@ async fn main() {
                     if is_mouse_button_released(MouseButton::Left)
                         || is_mouse_button_released(MouseButton::Right)
                     {
-                        minesweeper = Minesweeper::new(config.dimensions, 99);
+                        minesweeper = Minesweeper::new(config.dimensions, config.num_mines);
                         start_time = macroquad::prelude::get_time();
                     }
                 }
@@ -100,7 +102,7 @@ async fn main() {
 
         // Spawn protection 
         if (minesweeper.total_revealed() == 0 && *minesweeper.current_state() == GameState::Lose) || (minesweeper.total_revealed() > 0 && minesweeper.total_revealed() < 9) {
-            minesweeper = Minesweeper::new(config.dimensions, 99);
+            minesweeper = Minesweeper::new(config.dimensions, config.num_mines);
             start_time = macroquad::prelude::get_time();
             continue; 
         }

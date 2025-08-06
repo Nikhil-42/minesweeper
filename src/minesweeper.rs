@@ -29,6 +29,8 @@ impl Minesweeper {
             mine_positions.insert((x, y));
         }
 
+        println!("Configuration Hash {:?}", mine_positions.iter().map(|&(x, y)| x * dimensions.0 + y).reduce(|acc, x| acc ^ x));
+
         let mut minesweeper = Minesweeper {
             game_state: GameState::Playing,
             mines: vec![vec![0; dimensions.0]; dimensions.1],
