@@ -18,6 +18,15 @@ impl Config {
     fn height(&self) -> f32 {
         self.dimensions.1 as f32 * self.tile_size + self.header_size
     }
+
+    const fn default() -> Self {
+        Config {
+            header_size: 50.0,
+            dimensions: (18, 14),
+            num_mines: 40,
+            tile_size: 48.0,
+        }
+    }
 }
 
 fn from_screen(coords: (f32, f32), config: &Config) -> Option<Point> {
@@ -37,14 +46,29 @@ fn to_screen(coords: Point, config: &Config) -> (f32, f32) {
     (x, y)
 }
 
+const HARD: Config = Config {
+    dimensions: (24, 20),
+    num_mines: 99,
+    ..Config::default()
+};
+
+const MEDIUM: Config = Config {
+    dimensions: (18, 16),
+    num_mines: 40,
+    ..Config::default()
+};
+
+const EASY: Config = Config {
+    dimensions: (9, 9),
+    num_mines: 10,
+    ..Config::default()
+};
+
+
+
 #[macroquad::main("Minesweeper")]
 async fn main() {
-    let config = Config {
-        header_size: 50.0,
-        dimensions: (18, 14),
-        num_mines: 40,
-        tile_size: 48.0,
-    };
+    let config = HARD;
 
     let flag_tex = load_texture("res/flag.PNG").await.unwrap();
     let default_tex = load_texture("res/default.PNG").await.unwrap();
@@ -82,16 +106,16 @@ async fn main() {
         if let Some(coords) = coords {
             match minesweeper.current_state() {
                 GameState::Playing => {
-                    if is_mouse_button_released(MouseButton::Left) {
+                    if is_mouse_button_pressed(MouseButton::Left) {
                         minesweeper.reveal_tile(coords);
                     }
-                    if is_mouse_button_released(MouseButton::Right) {
+                    if is_mouse_button_pressed(MouseButton::Right) {
                         minesweeper.toggle_flag(coords);
                     }
                 }
                 GameState::Win | GameState::Lose => {
-                    if is_mouse_button_released(MouseButton::Left)
-                        || is_mouse_button_released(MouseButton::Right)
+                    if is_mouse_button_pressed(MouseButton::Left)
+                        || is_mouse_button_pressed(MouseButton::Right)
                     {
                         minesweeper = Minesweeper::new(config.dimensions, config.num_mines);
                         start_time = macroquad::prelude::get_time();
