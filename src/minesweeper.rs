@@ -1,4 +1,3 @@
-use std::collections::HashSet;
 use macroquad::rand::gen_range;
 
 pub type Point = (usize, usize);
@@ -13,19 +12,22 @@ pub enum GameState {
 pub struct Minesweeper {
     game_state: GameState,
     mines: Vec<Vec<i8>>,
-    flags: HashSet<Point>,
-    revealed: HashSet<Point>,
+    flags: Vec<Point>,
+    revealed: Vec<Point>,
     num_mines: usize,
 }
 
 impl Minesweeper {
     pub fn new(dimensions: (usize, usize), num_mines: usize) -> Self {
-        let mut mine_positions = HashSet::new();
+        let mut mine_positions = Vec::new();
 
         while mine_positions.len() < num_mines {
             let x = gen_range(0, dimensions.0);
             let y = gen_range(0, dimensions.1);
-            mine_positions.insert((x, y));
+            if mine_positions.contains(&(x, y)) {
+                continue; // Skip if this position already has a mine
+            }
+            mine_positions.push((x, y));
         }
 
         println!("Configuration Hash {:?}", mine_positions.iter().map(|&(x, y)| x * dimensions.0 + y).reduce(|acc, x| acc ^ x));
@@ -33,8 +35,8 @@ impl Minesweeper {
         let mut minesweeper = Minesweeper {
             game_state: GameState::Playing,
             mines: vec![vec![0; dimensions.0]; dimensions.1],
-            flags: HashSet::new(),
-            revealed: HashSet::new(),
+            flags: Vec::new(),
+            revealed: Vec::new(),
             num_mines,
         };
 
@@ -67,8 +69,9 @@ impl Minesweeper {
         }
 
         // Reveal the tile
-        if self.revealed.insert(coords) {
+        if !self.revealed.contains(&coords) {
             // Tile revealed, check for win condition
+            self.revealed.push(coords);
             if self.revealed.len() == (self.mines.len() * self.mines[0].len() - self.num_mines) {
                 // All non-mine tiles revealed, player wins
                 self.game_state = GameState::Win;
@@ -102,8 +105,10 @@ impl Minesweeper {
             return; // Cannot flag revealed tiles
         }
         // Toggle flag
-        if !self.flags.remove(&coords) {
-            self.flags.insert(coords); // Flag
+        if !self.flags.contains(&coords) {
+            self.flags.push(coords); // Flag
+        } else {
+            self.flags.retain(|&f| f != coords); // Unflag
         }
     }
 
