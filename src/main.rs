@@ -66,23 +66,24 @@ const HARD: Config = Config {
 
 #[macroquad::main("Minesweeper")]
 async fn main() {
+    set_pc_assets_folder("assets");
     let config = HARD;
     rand::srand(miniquad::date::now() as u64);
 
-    let flag_tex = load_texture("assets/flag.PNG").await.unwrap();
-    let default_tex = load_texture("assets/default.PNG").await.unwrap();
-    let revealed_tex = load_texture("assets/revealed.PNG").await.unwrap();
-    let mine_tex = load_texture("assets/mine.PNG").await.unwrap();
+    let flag_tex = load_texture("flag.png").await.unwrap();
+    let default_tex = load_texture("default.png").await.unwrap();
+    let revealed_tex = load_texture("revealed.png").await.unwrap();
+    let mine_tex = load_texture("mine.png").await.unwrap();
 
     let numbers_tex = [
-        load_texture("assets/1.PNG").await.unwrap(),
-        load_texture("assets/2.PNG").await.unwrap(),
-        load_texture("assets/3.PNG").await.unwrap(),
-        load_texture("assets/4.PNG").await.unwrap(),
-        load_texture("assets/5.PNG").await.unwrap(),
-        load_texture("assets/6.PNG").await.unwrap(),
-        load_texture("assets/7.PNG").await.unwrap(),
-        load_texture("assets/8.PNG").await.unwrap(),
+        load_texture("1.png").await.unwrap(),
+        load_texture("2.png").await.unwrap(),
+        load_texture("3.png").await.unwrap(),
+        load_texture("4.png").await.unwrap(),
+        load_texture("5.png").await.unwrap(),
+        load_texture("6.png").await.unwrap(),
+        load_texture("7.png").await.unwrap(),
+        load_texture("8.png").await.unwrap(),
     ];
 
     flag_tex.set_filter(FilterMode::Nearest);
@@ -92,6 +93,7 @@ async fn main() {
     for tex in &numbers_tex {
         tex.set_filter(FilterMode::Nearest);
     }
+    build_textures_atlas();
 
     let mut minesweeper = Minesweeper::new(config.dimensions, config.num_mines);
     let mut start_time = macroquad::prelude::get_time();
