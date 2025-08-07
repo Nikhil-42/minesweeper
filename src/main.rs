@@ -52,23 +52,23 @@ const HARD: Config = Config {
     ..Config::default()
 };
 
-const MEDIUM: Config = Config {
-    dimensions: (18, 16),
-    num_mines: 40,
-    ..Config::default()
-};
+// const MEDIUM: Config = Config {
+//     dimensions: (18, 16),
+//     num_mines: 40,
+//     ..Config::default()
+// };
 
-const EASY: Config = Config {
-    dimensions: (9, 9),
-    num_mines: 10,
-    ..Config::default()
-};
-
+// const EASY: Config = Config {
+//     dimensions: (9, 9),
+//     num_mines: 10,
+//     ..Config::default()
+// };
 
 
 #[macroquad::main("Minesweeper")]
 async fn main() {
     let config = HARD;
+    rand::srand(miniquad::date::now() as u64);
 
     let flag_tex = load_texture("assets/flag.PNG").await.unwrap();
     let default_tex = load_texture("assets/default.PNG").await.unwrap();

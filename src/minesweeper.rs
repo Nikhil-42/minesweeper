@@ -1,5 +1,5 @@
 use std::collections::HashSet;
-use rand::Rng;
+use macroquad::rand::gen_range;
 
 pub type Point = (usize, usize);
 
@@ -22,10 +22,9 @@ impl Minesweeper {
     pub fn new(dimensions: (usize, usize), num_mines: usize) -> Self {
         let mut mine_positions = HashSet::new();
 
-        let mut _rand = rand::rng();
         while mine_positions.len() < num_mines {
-            let x = _rand.random_range(0..dimensions.0);
-            let y = _rand.random_range(0..dimensions.1);
+            let x = gen_range(0, dimensions.0);
+            let y = gen_range(0, dimensions.1);
             mine_positions.insert((x, y));
         }
 
