@@ -1,5 +1,7 @@
 # Minesweeper (in Rust tho)
 
+Playable at: [nikhil-42.github.io/minesweeper](https://nikhil-42.github.io/minesweeper)
+
 The classic Minesweeper game implemented in Rust using the macroquad library.
 
 Mainly implemented because I'm jet-lagged and everyone is asleep. Also, I dislike the 
