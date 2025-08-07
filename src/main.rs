@@ -70,20 +70,20 @@ const EASY: Config = Config {
 async fn main() {
     let config = HARD;
 
-    let flag_tex = load_texture("res/flag.PNG").await.unwrap();
-    let default_tex = load_texture("res/default.PNG").await.unwrap();
-    let revealed_tex = load_texture("res/revealed.PNG").await.unwrap();
-    let mine_tex = load_texture("res/mine.PNG").await.unwrap();
+    let flag_tex = load_texture("assets/flag.PNG").await.unwrap();
+    let default_tex = load_texture("assets/default.PNG").await.unwrap();
+    let revealed_tex = load_texture("assets/revealed.PNG").await.unwrap();
+    let mine_tex = load_texture("assets/mine.PNG").await.unwrap();
 
     let numbers_tex = [
-        load_texture("res/1.PNG").await.unwrap(),
-        load_texture("res/2.PNG").await.unwrap(),
-        load_texture("res/3.PNG").await.unwrap(),
-        load_texture("res/4.PNG").await.unwrap(),
-        load_texture("res/5.PNG").await.unwrap(),
-        load_texture("res/6.PNG").await.unwrap(),
-        load_texture("res/7.PNG").await.unwrap(),
-        load_texture("res/8.PNG").await.unwrap(),
+        load_texture("assets/1.PNG").await.unwrap(),
+        load_texture("assets/2.PNG").await.unwrap(),
+        load_texture("assets/3.PNG").await.unwrap(),
+        load_texture("assets/4.PNG").await.unwrap(),
+        load_texture("assets/5.PNG").await.unwrap(),
+        load_texture("assets/6.PNG").await.unwrap(),
+        load_texture("assets/7.PNG").await.unwrap(),
+        load_texture("assets/8.PNG").await.unwrap(),
     ];
 
     flag_tex.set_filter(FilterMode::Nearest);

@@ -2,4 +2,4 @@
 *.kra
 *~
 *.PNG
-!res/*.PNG
+!assets/*.PNG
