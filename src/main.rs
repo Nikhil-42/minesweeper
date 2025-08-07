@@ -1,5 +1,4 @@
 mod minesweeper;
-
 use macroquad::{miniquad::window::set_window_size, prelude::*};
 use minesweeper::{GameState, Minesweeper, Point};
 
