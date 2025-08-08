@@ -17,7 +17,6 @@ Google Minesweeper controls.
 - Simple graphics with textures for flags, mines, and numbers
 
 ## Bugs
-- The RNG isn't very random, so the same mine positions can appear on different runs.
 - The game doesn't handle resizing the window well.
 - No fancy animations or effects, just basic tile revealing.
 - No sound effects or music (yet?).
